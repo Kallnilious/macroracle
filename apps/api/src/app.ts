@@ -4,6 +4,7 @@ import cors from 'cors';
 import pg from 'pg';
 import { createAuthRouter } from './auth/router.js';
 import { createProfileRouter } from './profile/router.js';
+import { createFoodsRouter } from './foods/router.js';
 
 export function createApp(pool: pg.Pool): express.Application {
   const app = express();
@@ -23,6 +24,7 @@ export function createApp(pool: pg.Pool): express.Application {
 
   app.use('/auth', createAuthRouter(pool));
   app.use('/profile', createProfileRouter(pool));
+  app.use('/foods', createFoodsRouter(pool));
 
   return app;
 }

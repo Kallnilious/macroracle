@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage.js';
 import { LoginPage } from './pages/LoginPage.js';
 import { RegisterPage } from './pages/RegisterPage.js';
 import { ProfilePage } from './pages/ProfilePage.js';
+import { FoodsPage } from './pages/FoodsPage.js';
 
 export default function App() {
   return (
@@ -24,6 +25,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <ProfilePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/foods"
+            element={
+              <RequireAuth>
+                <FoodsPage />
               </RequireAuth>
             }
           />
