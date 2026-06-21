@@ -184,7 +184,7 @@ export function createFoodsRouter(pool: pg.Pool): Router {
     try {
       const userId = req.user!.sub;
       const { rows } = await pool.query(
-        'SELECT * FROM foods WHERE user_id = $1 ORDER BY name ASC',
+        'SELECT * FROM foods WHERE user_id = $1 AND deleted_at IS NULL ORDER BY name ASC',
         [userId],
       );
       res.json({ foods: rows.map(rowToFood) });
@@ -200,7 +200,7 @@ export function createFoodsRouter(pool: pg.Pool): Router {
       const userId = req.user!.sub;
       const { id } = req.params;
       const { rows } = await pool.query(
-        'SELECT * FROM foods WHERE id = $1 AND user_id = $2',
+        'SELECT * FROM foods WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL',
         [id, userId],
       );
       if (rows.length === 0) {
@@ -284,9 +284,8 @@ export function createFoodsRouter(pool: pg.Pool): Router {
       const userId = req.user!.sub;
       const { id } = req.params;
 
-      // TODO Phase 5: block if referenced in log_entries
       const { rowCount } = await pool.query(
-        'DELETE FROM foods WHERE id = $1 AND user_id = $2',
+        'UPDATE foods SET deleted_at = NOW(), updated_at = NOW() WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL RETURNING id',
         [id, userId],
       );
 

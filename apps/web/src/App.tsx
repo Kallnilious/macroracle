@@ -7,6 +7,7 @@ import { RegisterPage } from './pages/RegisterPage.js';
 import { ProfilePage } from './pages/ProfilePage.js';
 import { FoodsPage } from './pages/FoodsPage.js';
 import { SearchPage } from './pages/SearchPage.js';
+import { LogPage } from './pages/LogPage.js';
 
 export default function App() {
   return (
@@ -34,6 +35,14 @@ export default function App() {
             element={
               <RequireAuth>
                 <FoodsPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/log"
+            element={
+              <RequireAuth>
+                <LogPage />
               </RequireAuth>
             }
           />

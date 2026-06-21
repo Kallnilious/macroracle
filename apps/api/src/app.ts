@@ -6,6 +6,7 @@ import { createAuthRouter } from './auth/router.js';
 import { createProfileRouter } from './profile/router.js';
 import { createFoodsRouter } from './foods/router.js';
 import { createSearchRouter, createUsdaRouter } from './usda/router.js';
+import { createLogRouter } from './log/router.js';
 
 export function createApp(pool: pg.Pool): express.Application {
   const app = express();
@@ -29,6 +30,7 @@ export function createApp(pool: pg.Pool): express.Application {
   app.use('/foods', createSearchRouter(pool));
   app.use('/foods', createFoodsRouter(pool));
   app.use('/usda', createUsdaRouter(pool));
+  app.use('/log', createLogRouter(pool));
 
   return app;
 }
