@@ -5,6 +5,7 @@ import pg from 'pg';
 import { createAuthRouter } from './auth/router.js';
 import { createProfileRouter } from './profile/router.js';
 import { createFoodsRouter } from './foods/router.js';
+import { createSearchRouter, createUsdaRouter } from './usda/router.js';
 
 export function createApp(pool: pg.Pool): express.Application {
   const app = express();
@@ -24,7 +25,10 @@ export function createApp(pool: pg.Pool): express.Application {
 
   app.use('/auth', createAuthRouter(pool));
   app.use('/profile', createProfileRouter(pool));
+  // Search router first so GET /foods/search is matched before GET /foods/:id
+  app.use('/foods', createSearchRouter(pool));
   app.use('/foods', createFoodsRouter(pool));
+  app.use('/usda', createUsdaRouter(pool));
 
   return app;
 }
