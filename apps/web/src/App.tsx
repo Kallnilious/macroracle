@@ -1,8 +1,29 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './auth/AuthContext.js';
+import { RequireAuth } from './auth/RequireAuth.js';
+import { HomePage } from './pages/HomePage.js';
+import { LoginPage } from './pages/LoginPage.js';
+import { RegisterPage } from './pages/RegisterPage.js';
+
 export default function App() {
   return (
-    <main style={{ fontFamily: 'sans-serif', textAlign: 'center', marginTop: '4rem' }}>
-      <h1>Macroracle</h1>
-      <p>The oracle is awakening.</p>
-    </main>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <HomePage />
+              </RequireAuth>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          {/* Catch-all: redirect unknown paths to home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
